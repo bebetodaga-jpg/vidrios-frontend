@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://galaxi-backend.onrender.com/api/:path*" },
+    { "source": "/api/:path*", "destination": "https://vidrios-backend.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

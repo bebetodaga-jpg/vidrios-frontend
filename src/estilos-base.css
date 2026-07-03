@@ -1,0 +1,134 @@
+/* Reset mínimo; Ant Design aporta el resto vía antd/dist/reset.css. */
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Cifras de dinero y medidas en monoespaciada (regla del sistema de diseño). */
+.mono {
+  font-family: Consolas, 'Roboto Mono', monospace;
+}
+
+/* ===== Cotizador wizard (réplica del prototipo ux-ui/sprint-0/prototipo-cotizador.html) ===== */
+.cotz-paso-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 4px;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  border: none;
+  border-bottom: 3px solid #d1d5db;
+  cursor: pointer;
+  min-height: 44px;
+  font-family: inherit;
+}
+.cotz-paso-tab.activo {
+  color: #16335b;
+  border-bottom-color: #0e9fd8;
+}
+.cotz-paso-tab.hecho {
+  color: #1e7a4f;
+  border-bottom-color: #1e7a4f;
+}
+
+.cotz-opciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.cotz-opcion {
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+  background: #fff;
+  min-height: 44px;
+}
+.cotz-opcion:hover {
+  border-color: #0e9fd8;
+}
+.cotz-opcion.sel {
+  border-color: #0e9fd8;
+  background: #d6f0fa;
+}
+.cotz-opcion .icono {
+  font-size: 34px;
+  line-height: 1.2;
+}
+.cotz-opcion .nom {
+  font-weight: 600;
+  font-size: 13.5px;
+  margin-top: 6px;
+}
+.cotz-opcion .sub {
+  font-size: 11.5px;
+  color: #374151;
+  margin-top: 2px;
+}
+.cotz-muestra {
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  margin: 0 auto;
+  border: 1px solid #d1d5db;
+}
+
+.cotz-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.cotz-tabla th {
+  background: #f3f4f6;
+  text-align: left;
+  padding: 6px 8px;
+  color: #374151;
+  font-size: 12px;
+}
+.cotz-tabla td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f3f4f6;
+}
+.cotz-tabla td.num,
+.cotz-tabla th.num {
+  text-align: right;
+  font-family: Consolas, 'Roboto Mono', monospace;
+  white-space: nowrap;
+}
+
+/* Impresión: se oculta todo menos el documento marcado (ticket térmico 80 mm o cotización A4). */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .ticket-imprimible,
+  .ticket-imprimible *,
+  .doc-imprimible,
+  .doc-imprimible * {
+    visibility: visible;
+  }
+  .ticket-imprimible {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    padding: 4mm;
+  }
+  .doc-imprimible {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 8mm;
+  }
+}

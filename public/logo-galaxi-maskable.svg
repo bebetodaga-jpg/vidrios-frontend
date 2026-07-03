@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vidrios Galaxi">
+  <!-- Maskable: fondo a sangre completa; el mark vive en la zona segura central (~80%). -->
+  <rect width="512" height="512" fill="#16335B"/>
+  <rect x="156" y="156" width="200" height="200" rx="16" fill="#0E9FD8" opacity="0.18" stroke="#0E9FD8" stroke-width="8"/>
+  <line x1="156" y1="256" x2="356" y2="256" stroke="#0E9FD8" stroke-width="6" opacity="0.55"/>
+  <line x1="256" y1="156" x2="256" y2="356" stroke="#0E9FD8" stroke-width="6" opacity="0.55"/>
+  <text x="256" y="300" font-family="'Segoe UI', Arial, sans-serif" font-size="150" font-weight="700"
+        text-anchor="middle" fill="#FFFFFF">G</text>
+</svg>

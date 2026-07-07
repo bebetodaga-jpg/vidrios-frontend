@@ -42,7 +42,7 @@ export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, on
       return;
     }
     if (!ancho || !alto) {
-      message.warning('Ingrese ancho y alto en cm.');
+      message.warning('Ingrese ancho y alto en mm.');
       return;
     }
     if (tieneDetalle && !hayFoto) {
@@ -59,7 +59,7 @@ export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, on
       cantidad,
       tieneDetalle,
       fotoUrl: hayFoto ? 'local://foto-capturada' : undefined,
-      medidas: [{ id: crypto.randomUUID(), tipo: 'INICIAL', anchoCm: ancho, altoCm: alto }],
+      medidas: [{ id: crypto.randomUUID(), tipo: 'INICIAL', anchoMm: ancho, altoMm: alto }],
     });
     message.success('Vano guardado en el teléfono.');
     onGuardado();
@@ -73,11 +73,11 @@ export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, on
       <Select value={tipo} onChange={(v) => { setTipo(v); }} options={TIPOS_TRABAJO.map((t) => ({ label: t, value: t }))} style={{ width: '100%', marginBottom: 12 }} size="large" />
       <Row gutter={10} style={{ marginBottom: 12 }}>
         <Col span={8}>
-          Ancho (cm)
+          Ancho (mm)
           <InputNumber min={1} value={ancho} onChange={(v) => { setAncho(v ?? 0); }} style={{ width: '100%' }} size="large" />
         </Col>
         <Col span={8}>
-          Alto (cm)
+          Alto (mm)
           <InputNumber min={1} value={alto} onChange={(v) => { setAlto(v ?? 0); }} style={{ width: '100%' }} size="large" />
         </Col>
         <Col span={8}>

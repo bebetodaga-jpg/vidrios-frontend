@@ -8,8 +8,8 @@ export interface ItemCarrito {
   unidadVenta: UnidadVenta;
   precioCentimos: number; // unitario (por pie²/m²/barrilla/unidad)
   cantidad: number;
-  anchoCm?: number;
-  altoCm?: number;
+  anchoMm?: number;
+  altoMm?: number;
 }
 
 export interface VentaEnEspera {

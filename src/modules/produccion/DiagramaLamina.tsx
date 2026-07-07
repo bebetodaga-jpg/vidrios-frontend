@@ -7,14 +7,14 @@ import { colores } from '@shared/tokens';
  */
 export function DiagramaLamina({ lamina, ancho = 400 }: { lamina: PlanLamina; ancho?: number }): React.ReactNode {
   const margen = 10;
-  const escala = (ancho - 2 * margen) / lamina.anchoCm;
-  const alto = lamina.altoCm * escala;
+  const escala = (ancho - 2 * margen) / lamina.anchoMm;
+  const alto = lamina.altoMm * escala;
   return (
     <svg width={ancho} height={alto + 22} style={{ display: 'block' }}>
       <rect
         x={margen}
         y={margen}
-        width={lamina.anchoCm * escala}
+        width={lamina.anchoMm * escala}
         height={alto}
         fill={lamina.origen === 'RETAZO' ? '#D6F0FA' : '#F3F4F6'}
         stroke={colores.blue800}
@@ -26,23 +26,23 @@ export function DiagramaLamina({ lamina, ancho = 400 }: { lamina: PlanLamina; an
           <rect
             x={margen + s.x * escala}
             y={margen + s.y * escala}
-            width={s.anchoCm * escala}
-            height={s.altoCm * escala}
+            width={s.anchoMm * escala}
+            height={s.altoMm * escala}
             fill={colores.green600}
             fillOpacity={0.1}
             stroke={colores.green600}
             strokeDasharray="4 3"
           />
-          {s.anchoCm * escala > 46 && s.altoCm * escala > 16 && (
+          {s.anchoMm * escala > 46 && s.altoMm * escala > 16 && (
             <text
-              x={margen + (s.x + s.anchoCm / 2) * escala}
-              y={margen + (s.y + s.altoCm / 2) * escala}
+              x={margen + (s.x + s.anchoMm / 2) * escala}
+              y={margen + (s.y + s.altoMm / 2) * escala}
               textAnchor="middle"
               fontSize={10}
               fill={colores.green600}
               className="mono"
             >
-              retazo {String(s.anchoCm)}×{String(s.altoCm)}
+              retazo {String(s.anchoMm)}×{String(s.altoMm)}
             </text>
           )}
         </g>
@@ -52,27 +52,27 @@ export function DiagramaLamina({ lamina, ancho = 400 }: { lamina: PlanLamina; an
           <rect
             x={margen + c.x * escala}
             y={margen + c.y * escala}
-            width={c.anchoCm * escala}
-            height={c.altoCm * escala}
+            width={c.anchoMm * escala}
+            height={c.altoMm * escala}
             fill="#0E9FD8"
             fillOpacity={0.35}
             stroke={colores.cyan600}
           />
           <text
-            x={margen + (c.x + c.anchoCm / 2) * escala}
-            y={margen + (c.y + c.altoCm / 2) * escala}
+            x={margen + (c.x + c.anchoMm / 2) * escala}
+            y={margen + (c.y + c.altoMm / 2) * escala}
             textAnchor="middle"
             fontSize={11}
             fill={colores.gray900}
             className="mono"
           >
-            {String(i + 1)}· {String(c.anchoCm)}×{String(c.altoCm)}
+            {String(i + 1)}· {String(c.anchoMm)}×{String(c.altoMm)}
             {c.rotado ? ' ↻' : ''}
           </text>
         </g>
       ))}
       <text x={margen} y={alto + 20} fontSize={11} fill={colores.gray700} className="mono">
-        {lamina.origen} {String(lamina.anchoCm)}×{String(lamina.altoCm)} cm · uso {String(lamina.usoPct)}%
+        {lamina.origen} {String(lamina.anchoMm)}×{String(lamina.altoMm)} mm · uso {String(lamina.usoPct)}%
       </text>
     </svg>
   );

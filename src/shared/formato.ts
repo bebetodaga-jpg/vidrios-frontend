@@ -8,7 +8,7 @@ export function aCentimos(soles: number): number {
   return Math.round(soles * 100);
 }
 
-/** Medida en cm redondeada a 1 decimal (se mide al milímetro); null/indefinido → 0. */
-export function aDecimalDeCm(valor: number | null | undefined): number {
-  return Math.round((valor ?? 0) * 10) / 10;
+/** Medida en MILÍMETROS ENTEROS (la unidad mínima del taller); null/indefinido → 0. */
+export function aMmEntero(valor: number | null | undefined): number {
+  return Math.round(valor ?? 0);
 }

@@ -60,7 +60,7 @@ export function TabCortesVenta(): React.ReactNode {
       width: 150,
       align: 'center',
       render: (_: unknown, c: CorteVenta) => (
-        <b className="mono">{c.anchoCm} × {c.altoCm} cm</b>
+        <b className="mono">{c.anchoMm} × {c.altoMm} mm</b>
       ),
     },
     { title: 'Cant.', dataIndex: 'cantidad', width: 80, align: 'center', render: (n: number) => <Tag>{n}</Tag> },

@@ -2,24 +2,24 @@ import { useEffect, useState } from 'react';
 import { Col, InputNumber, Modal, Row, Statistic } from 'antd';
 import { ETIQUETA_UNIDAD, ProductoCatalogo } from '@shared/api/catalogo';
 import { areaEnUnidad, importeCentimos } from './calculo-pos';
-import { aDecimalDeCm, soles } from '@shared/formato';
+import { aMmEntero, soles } from '@shared/formato';
 
 interface Props {
   producto: ProductoCatalogo | null; // abierto cuando != null
   onCerrar: () => void;
-  onAgregar: (anchoCm: number, altoCm: number, cantidad: number) => void;
+  onAgregar: (anchoMm: number, altoMm: number, cantidad: number) => void;
 }
 
-/** Mini-modal de venta por área: ancho × alto en cm + cantidad, con m²/pie² y precio en vivo. */
+/** Mini-modal de venta por área: ancho × alto en mm + cantidad, con m²/pie² y precio en vivo. */
 export function ModalMedidas({ producto, onCerrar, onAgregar }: Props): React.ReactNode {
-  const [ancho, setAncho] = useState(100);
-  const [alto, setAlto] = useState(100);
+  const [ancho, setAncho] = useState(1000);
+  const [alto, setAlto] = useState(1000);
   const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
     if (producto) {
-      setAncho(100);
-      setAlto(100);
+      setAncho(1000);
+      setAlto(1000);
       setCantidad(1);
     }
   }, [producto]);
@@ -50,12 +50,12 @@ export function ModalMedidas({ producto, onCerrar, onAgregar }: Props): React.Re
     >
       <Row gutter={10}>
         <Col span={8}>
-          Ancho (cm)
-          <InputNumber autoFocus min={1} step={0.1} value={ancho} onChange={(v) => { setAncho(aDecimalDeCm(v)); }} style={{ width: '100%' }} onPressEnter={confirmar} />
+          Ancho (mm)
+          <InputNumber autoFocus min={1} step={1} value={ancho} onChange={(v) => { setAncho(aMmEntero(v)); }} style={{ width: '100%' }} onPressEnter={confirmar} />
         </Col>
         <Col span={8}>
-          Alto (cm)
-          <InputNumber min={1} step={0.1} value={alto} onChange={(v) => { setAlto(aDecimalDeCm(v)); }} style={{ width: '100%' }} onPressEnter={confirmar} />
+          Alto (mm)
+          <InputNumber min={1} step={1} value={alto} onChange={(v) => { setAlto(aMmEntero(v)); }} style={{ width: '100%' }} onPressEnter={confirmar} />
         </Col>
         <Col span={8}>
           Cantidad

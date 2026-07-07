@@ -5,30 +5,30 @@ import type { UnidadVenta } from '@shared/api/catalogo';
  * precio en vivo. El backend recalcula y manda el total autoritativo al confirmar; aquí solo se
  * muestra. Crudo/catedral/espejo por pie², templado por m² (regla del dueño).
  */
-const CM2_POR_PIE2 = 929.0304;
-const CM2_POR_M2 = 10_000;
+const MM2_POR_PIE2 = 92_903.04; // 1 pie = 304.8 mm
+const MM2_POR_M2 = 1_000_000;
 
 export function esPorArea(unidad: UnidadVenta): boolean {
   return unidad === 'PIE2' || unidad === 'M2';
 }
 
-export function areaEnUnidad(unidad: UnidadVenta, anchoCm: number, altoCm: number): number {
-  const cm2 = anchoCm * altoCm;
-  return unidad === 'PIE2' ? cm2 / CM2_POR_PIE2 : cm2 / CM2_POR_M2;
+export function areaEnUnidad(unidad: UnidadVenta, anchoMm: number, altoMm: number): number {
+  const mm2 = anchoMm * altoMm;
+  return unidad === 'PIE2' ? mm2 / MM2_POR_PIE2 : mm2 / MM2_POR_M2;
 }
 
 export function importeCentimos(
   unidad: UnidadVenta,
   precioCentimos: number,
   cantidad: number,
-  anchoCm?: number,
-  altoCm?: number,
+  anchoMm?: number,
+  altoMm?: number,
 ): number {
   if (esPorArea(unidad)) {
-    if (!anchoCm || !altoCm) {
+    if (!anchoMm || !altoMm) {
       return 0;
     }
-    return Math.round(precioCentimos * areaEnUnidad(unidad, anchoCm, altoCm) * cantidad);
+    return Math.round(precioCentimos * areaEnUnidad(unidad, anchoMm, altoMm) * cantidad);
   }
   return precioCentimos * cantidad;
 }

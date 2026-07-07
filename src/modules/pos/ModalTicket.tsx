@@ -44,8 +44,8 @@ export function ModalTicket({ ticket, onNueva }: { ticket: DatosTicket | null; o
         Cajera: {ticket.cajera}
         <hr />
         {ticket.items.map((i) => {
-          const importe = importeCentimos(i.unidadVenta, i.precioCentimos, i.cantidad, i.anchoCm, i.altoCm);
-          const medida = i.anchoCm && i.altoCm ? ` (${String(i.anchoCm)}×${String(i.altoCm)} cm)` : '';
+          const importe = importeCentimos(i.unidadVenta, i.precioCentimos, i.cantidad, i.anchoMm, i.altoMm);
+          const medida = i.anchoMm && i.altoMm ? ` (${String(i.anchoMm)}×${String(i.altoMm)} mm)` : '';
           return (
             <div key={i.key} style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span>

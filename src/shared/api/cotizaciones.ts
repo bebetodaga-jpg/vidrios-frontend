@@ -15,12 +15,12 @@ export interface ColorAluminio {
 export interface PerfilDespiece {
   nombre: string;
   cantidad: number;
-  largoCm: number;
+  largoMm: number;
 }
 export interface PanoDespiece {
   cantidad: number;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
 }
 export interface Despiece {
   perfiles: PerfilDespiece[];
@@ -40,8 +40,8 @@ export interface ConfigItem {
   modelo: string;
   vidrioCodigo: string;
   color: string;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   cantidad: number;
 }
 export interface ItemPersistido extends Omit<ConfigItem, 'modelo'> {

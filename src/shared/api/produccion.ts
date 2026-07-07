@@ -4,21 +4,21 @@ export interface Colocacion {
   etiqueta: string;
   x: number;
   y: number;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   rotado: boolean;
 }
 export interface Sobrante {
   x: number;
   y: number;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
 }
 export interface PlanLamina {
   laminaId: string;
   origen: 'PLANCHA' | 'RETAZO';
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   colocaciones: Colocacion[];
   sobrantes: Sobrante[];
   usoPct: number;
@@ -38,9 +38,9 @@ export interface PlanVidrio {
   retazosCreados: string[];
 }
 export interface BarraPlan {
-  piezas: { nombre: string; largoCm: number }[];
-  usadoCm: number;
-  sobranteCm: number;
+  piezas: { nombre: string; largoMm: number }[];
+  usadoMm: number;
+  sobranteMm: number;
 }
 export interface ResultadoCorte {
   vidrios: PlanVidrio[];
@@ -80,14 +80,14 @@ export interface OrdenCompra {
 export type PlanCorte2D = Plan2D;
 export interface PanoManual {
   etiqueta: string;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   cantidad: number;
 }
 export interface EntradaCorteManual {
   vidrioCodigo: string;
-  planchaAnchoCm: number;
-  planchaAltoCm: number;
+  planchaAnchoMm: number;
+  planchaAltoMm: number;
   usarRetazos: boolean;
   panos: PanoManual[];
 }
@@ -111,8 +111,8 @@ export interface CorteVenta {
   ventaNumero: string;
   productoCodigo: string;
   productoNombre: string;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   cantidad: number;
   estado: 'PENDIENTE' | 'CORTADO';
   creadoEn: string;

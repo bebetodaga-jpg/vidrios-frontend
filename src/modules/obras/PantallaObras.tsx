@@ -234,10 +234,10 @@ export function PantallaObras(): React.ReactNode {
         return (
           <Card key={a.id} title={`🚪 ${a.nombre}`} style={{ marginBottom: 12 }} extra={<Button size="small" icon={<PlusOutlined />} onClick={() => { setMedir({ ambienteId: a.id, codigo: `V-${String(total + 1).padStart(2, '0')}` }); }}>Medir vano</Button>}>
           {a.vanos.map((v) => (
-              <FilaVano key={v.id} codigo={v.codigo} nombre={v.nombre} tipo={v.tipo} medida={v.medidaActual ? `${String(v.medidaActual.anchoCm)}×${String(v.medidaActual.altoCm)} cm` : '—'} remetreado={v.medidas.length > 1} sincronizado />
+              <FilaVano key={v.id} codigo={v.codigo} nombre={v.nombre} tipo={v.tipo} medida={v.medidaActual ? `${String(v.medidaActual.anchoMm)}×${String(v.medidaActual.altoMm)} mm` : '—'} remetreado={v.medidas.length > 1} sincronizado />
             ))}
             {locales.map((v: VanoPendiente) => (
-              <FilaVano key={v.id} codigo={v.codigo} nombre={v.nombre} tipo={v.tipo} medida={`${String(v.medidas[0].anchoCm)}×${String(v.medidas[0].altoCm)} cm`} remetreado={false} sincronizado={false} />
+              <FilaVano key={v.id} codigo={v.codigo} nombre={v.nombre} tipo={v.tipo} medida={`${String(v.medidas[0].anchoMm)}×${String(v.medidas[0].altoMm)} mm`} remetreado={false} sincronizado={false} />
             ))}
             {total === 0 && <Typography.Text type="secondary">Sin vanos. Toque "Medir vano".</Typography.Text>}
           </Card>

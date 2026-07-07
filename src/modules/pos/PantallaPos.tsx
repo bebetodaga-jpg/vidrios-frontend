@@ -87,7 +87,7 @@ export function PantallaPos(): React.ReactNode {
       return;
     }
     setCarrito((c) => {
-      const ex = c.find((i) => i.codigo === p.codigo && i.anchoCm === undefined);
+      const ex = c.find((i) => i.codigo === p.codigo && i.anchoMm === undefined);
       if (ex) {
         return c.map((i) => (i === ex ? { ...i, cantidad: i.cantidad + 1 } : i));
       }
@@ -99,12 +99,12 @@ export function PantallaPos(): React.ReactNode {
     foco();
   }
 
-  function agregarMedida(anchoCm: number, altoCm: number, cantidad: number): void {
+  function agregarMedida(anchoMm: number, altoMm: number, cantidad: number): void {
     const p = prodMedidas;
     if (!p) return;
     setCarrito((c) => [
       ...c,
-      { key: crypto.randomUUID(), codigo: p.codigo, nombre: p.nombre, unidadVenta: p.unidadVenta, precioCentimos: p.precioCentimos, cantidad, anchoCm, altoCm },
+      { key: crypto.randomUUID(), codigo: p.codigo, nombre: p.nombre, unidadVenta: p.unidadVenta, precioCentimos: p.precioCentimos, cantidad, anchoMm, altoMm },
     ]);
     setProdMedidas(null);
     foco();
@@ -125,7 +125,7 @@ export function PantallaPos(): React.ReactNode {
     }
   }
 
-  const subtotal = carrito.reduce((s, i) => s + importeCentimos(i.unidadVenta, i.precioCentimos, i.cantidad, i.anchoCm, i.altoCm), 0);
+  const subtotal = carrito.reduce((s, i) => s + importeCentimos(i.unidadVenta, i.precioCentimos, i.cantidad, i.anchoMm, i.altoMm), 0);
   const total = Math.round(subtotal * (1 - descuentoPct / 100));
 
   function abrirCobro(): void {
@@ -145,7 +145,7 @@ export function PantallaPos(): React.ReactNode {
     setProcesando(true);
     try {
       const venta = await confirmarVenta(sesion.token, {
-        items: carrito.map((i) => ({ codigo: i.codigo, cantidad: i.cantidad, anchoCm: i.anchoCm, altoCm: i.altoCm })),
+        items: carrito.map((i) => ({ codigo: i.codigo, cantidad: i.cantidad, anchoMm: i.anchoMm, altoMm: i.altoMm })),
         metodoPago: metodo,
         descuentoPct: esGerente && descuentoPct > 0 ? descuentoPct : undefined,
       });
@@ -226,9 +226,9 @@ export function PantallaPos(): React.ReactNode {
       render: (_: unknown, i: ItemCarrito) => (
         <div>
           <b>{i.nombre}</b>
-          {i.anchoCm && i.altoCm && (
+          {i.anchoMm && i.altoMm && (
             <div className="mono" style={{ fontSize: 12, color: colores.gray700 }}>
-              {i.anchoCm} × {i.altoCm} cm · {ETIQUETA_UNIDAD[i.unidadVenta]}
+              {i.anchoMm} × {i.altoMm} mm · {ETIQUETA_UNIDAD[i.unidadVenta]}
             </div>
           )}
         </div>
@@ -255,7 +255,7 @@ export function PantallaPos(): React.ReactNode {
       align: 'right',
       width: 110,
       render: (_: unknown, i: ItemCarrito) => (
-        <b className="mono">{soles(importeCentimos(i.unidadVenta, i.precioCentimos, i.cantidad, i.anchoCm, i.altoCm))}</b>
+        <b className="mono">{soles(importeCentimos(i.unidadVenta, i.precioCentimos, i.cantidad, i.anchoMm, i.altoMm))}</b>
       ),
     },
     {

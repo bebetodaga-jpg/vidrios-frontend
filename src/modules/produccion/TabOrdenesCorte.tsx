@@ -124,7 +124,7 @@ export function TabOrdenesCorte(): React.ReactNode {
             </Typography.Title>
             {detalle.resultado.perfiles.barras.map((b, i) => (
               <div key={i} className="mono" style={{ fontSize: 12, padding: '3px 0', borderBottom: '1px solid #F3F4F6' }}>
-                Barrilla {String(i + 1)}: {b.piezas.map((p) => `${p.nombre} ${String(p.largoCm)}`).join(' | ')} → sobra {String(b.sobranteCm)} cm
+                Barrilla {String(i + 1)}: {b.piezas.map((p) => `${p.nombre} ${String(p.largoMm)}`).join(' | ')} → sobra {String(b.sobranteMm)} mm
               </div>
             ))}
           </div>

@@ -12,15 +12,15 @@ import { DiagramaLamina } from './DiagramaLamina';
 interface FilaPano {
   key: string;
   etiqueta: string;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   cantidad: number;
 }
 
-const PLANCHA_ESTANDAR = { anchoCm: 330, altoCm: 214 };
+const PLANCHA_ESTANDAR = { anchoMm: 3300, altoMm: 2140 };
 
 function filaNueva(): FilaPano {
-  return { key: crypto.randomUUID(), etiqueta: '', anchoCm: 0, altoCm: 0, cantidad: 1 };
+  return { key: crypto.randomUUID(), etiqueta: '', anchoMm: 0, altoMm: 0, cantidad: 1 };
 }
 
 /**
@@ -35,8 +35,8 @@ export function TabCorteManual(): React.ReactNode {
 
   const [vidrios, setVidrios] = useState<ProductoCatalogo[]>([]);
   const [vidrioCodigo, setVidrioCodigo] = useState<string>();
-  const [planchaAncho, setPlanchaAncho] = useState(PLANCHA_ESTANDAR.anchoCm);
-  const [planchaAlto, setPlanchaAlto] = useState(PLANCHA_ESTANDAR.altoCm);
+  const [planchaAncho, setPlanchaAncho] = useState(PLANCHA_ESTANDAR.anchoMm);
+  const [planchaAlto, setPlanchaAlto] = useState(PLANCHA_ESTANDAR.altoMm);
   const [usarRetazos, setUsarRetazos] = useState(true);
   const [panos, setPanos] = useState<FilaPano[]>([filaNueva()]);
   const [plan, setPlan] = useState<PlanCorte2D | null>(null);
@@ -62,7 +62,7 @@ export function TabCorteManual(): React.ReactNode {
   }
 
   function entradaActual(): EntradaCorteManual | null {
-    const validos = panos.filter((p) => p.anchoCm > 0 && p.altoCm > 0 && p.cantidad > 0);
+    const validos = panos.filter((p) => p.anchoMm > 0 && p.altoMm > 0 && p.cantidad > 0);
     if (validos.length === 0) {
       message.warning('Agregue al menos un paño con medidas y cantidad.');
       return null;
@@ -73,13 +73,13 @@ export function TabCorteManual(): React.ReactNode {
     }
     return {
       vidrioCodigo: vidrioCodigo ?? '',
-      planchaAnchoCm: planchaAncho,
-      planchaAltoCm: planchaAlto,
+      planchaAnchoMm: planchaAncho,
+      planchaAltoMm: planchaAlto,
       usarRetazos: usarRetazos && !!vidrioCodigo,
       panos: validos.map((p, i) => ({
         etiqueta: p.etiqueta.trim() || `Paño ${String(i + 1)}`,
-        anchoCm: p.anchoCm,
-        altoCm: p.altoCm,
+        anchoMm: p.anchoMm,
+        altoMm: p.altoMm,
         cantidad: p.cantidad,
       })),
     };
@@ -133,17 +133,17 @@ export function TabCorteManual(): React.ReactNode {
       ),
     },
     {
-      title: 'Ancho (cm)',
+      title: 'Ancho (mm)',
       width: 110,
       render: (_: unknown, f: FilaPano) => (
-        <InputNumber min={0} value={f.anchoCm} onChange={(v) => { actualizar(f.key, 'anchoCm', v ?? 0); }} style={{ width: '100%' }} />
+        <InputNumber min={0} value={f.anchoMm} onChange={(v) => { actualizar(f.key, 'anchoMm', v ?? 0); }} style={{ width: '100%' }} />
       ),
     },
     {
-      title: 'Alto (cm)',
+      title: 'Alto (mm)',
       width: 110,
       render: (_: unknown, f: FilaPano) => (
-        <InputNumber min={0} value={f.altoCm} onChange={(v) => { actualizar(f.key, 'altoCm', v ?? 0); }} style={{ width: '100%' }} />
+        <InputNumber min={0} value={f.altoMm} onChange={(v) => { actualizar(f.key, 'altoMm', v ?? 0); }} style={{ width: '100%' }} />
       ),
     },
     {
@@ -185,15 +185,15 @@ export function TabCorteManual(): React.ReactNode {
             />
           </div>
           <div>
-            <div style={{ fontSize: 12, color: colores.gray700, marginBottom: 2 }}>Plancha ancho (cm)</div>
+            <div style={{ fontSize: 12, color: colores.gray700, marginBottom: 2 }}>Plancha ancho (mm)</div>
             <InputNumber min={1} value={planchaAncho} onChange={(v) => { setPlanchaAncho(v ?? 0); }} style={{ width: 120 }} />
           </div>
           <div>
-            <div style={{ fontSize: 12, color: colores.gray700, marginBottom: 2 }}>Plancha alto (cm)</div>
+            <div style={{ fontSize: 12, color: colores.gray700, marginBottom: 2 }}>Plancha alto (mm)</div>
             <InputNumber min={1} value={planchaAlto} onChange={(v) => { setPlanchaAlto(v ?? 0); }} style={{ width: 120 }} />
           </div>
-          <Button onClick={() => { setPlanchaAncho(PLANCHA_ESTANDAR.anchoCm); setPlanchaAlto(PLANCHA_ESTANDAR.altoCm); }}>
-            Estándar 330×214
+          <Button onClick={() => { setPlanchaAncho(PLANCHA_ESTANDAR.anchoMm); setPlanchaAlto(PLANCHA_ESTANDAR.altoMm); }}>
+            Estándar 3300×2140
           </Button>
           <Checkbox checked={usarRetazos} disabled={!vidrioCodigo} onChange={(e) => { setUsarRetazos(e.target.checked); }}>
             Usar retazos disponibles
@@ -220,7 +220,7 @@ export function TabCorteManual(): React.ReactNode {
         >
           <div className="doc-imprimible">
             <Space wrap style={{ marginBottom: 10 }}>
-              <Tag color="blue">{String(plan.planchasNuevas)} plancha(s) {String(planchaAncho)}×{String(planchaAlto)} cm</Tag>
+              <Tag color="blue">{String(plan.planchasNuevas)} plancha(s) {String(planchaAncho)}×{String(planchaAlto)} mm</Tag>
               {plan.retazosUsados.length > 0 && <Tag color="cyan">usa {String(plan.retazosUsados.length)} retazo(s)</Tag>}
               <Tag color="blue">uso {String(Math.round((100 - plan.desperdicioPct) * 10) / 10)}%</Tag>
               <Tag color="green">retazo reutilizable {String(plan.retazoUtilPct)}%</Tag>

@@ -8,8 +8,8 @@ interface ItemPdf {
   modelo: string;
   vidrioNombre: string;
   color: string;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   cantidad: number;
   unitCentimos: number;
   totalCentimos: number;
@@ -81,7 +81,7 @@ export function ModalPdfCotizacion({ abierto, numero, items, total, modelos, onC
                 <td style={{ padding: 6 }}>{it.vanoCodigo}</td>
                 <td style={{ padding: 6 }}>{nombreModelo(it.modelo)}</td>
                 <td style={{ padding: 6 }}>{it.vidrioNombre}</td>
-                <td style={{ padding: 6, textAlign: 'right' }} className="mono">{it.anchoCm}×{it.altoCm} cm</td>
+                <td style={{ padding: 6, textAlign: 'right' }} className="mono">{it.anchoMm}×{it.altoMm} mm</td>
                 <td style={{ padding: 6, textAlign: 'right' }} className="mono">{it.cantidad}</td>
                 <td style={{ padding: 6, textAlign: 'right' }} className="mono">{soles(it.unitCentimos)}</td>
                 <td style={{ padding: 6, textAlign: 'right' }} className="mono"><b>{soles(it.totalCentimos)}</b></td>

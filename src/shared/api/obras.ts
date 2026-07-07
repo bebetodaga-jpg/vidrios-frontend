@@ -17,8 +17,8 @@ export interface ObraResumen {
 export interface MedidaVista {
   id: string;
   tipo: string;
-  anchoCm: number;
-  altoCm: number;
+  anchoMm: number;
+  altoMm: number;
   autor: string;
   creadoEn: string;
 }
@@ -31,7 +31,7 @@ export interface VanoVista {
   cantidad: number;
   tieneDetalle: boolean;
   fotoUrl: string | null;
-  medidaActual: { anchoCm: number; altoCm: number } | null;
+  medidaActual: { anchoMm: number; altoMm: number } | null;
   medidas: MedidaVista[];
 }
 
@@ -58,7 +58,7 @@ export interface VanoSync {
   cantidad: number;
   tieneDetalle: boolean;
   fotoUrl?: string;
-  medidas: { id: string; tipo: 'INICIAL' | 'REMETREO'; anchoCm: number; altoCm: number }[];
+  medidas: { id: string; tipo: 'INICIAL' | 'REMETREO'; anchoMm: number; altoMm: number }[];
 }
 
 export const TIPOS_TRABAJO = [
@@ -96,9 +96,9 @@ export const sincronizarLote = (
 export const registrarMedida = (
   token: string,
   vanoId: string,
-  anchoCm: number,
-  altoCm: number,
-): Promise<{ tipo: string }> => pedirApi('POST', `/obras/vanos/${vanoId}/medidas`, token, { anchoCm, altoCm });
+  anchoMm: number,
+  altoMm: number,
+): Promise<{ tipo: string }> => pedirApi('POST', `/obras/vanos/${vanoId}/medidas`, token, { anchoMm, altoMm });
 
 export const avanzarEstadoObra = (token: string, obraId: string, estado: EstadoObra): Promise<{ estado: EstadoObra }> =>
   pedirApi('POST', `/obras/${obraId}/estado`, token, { estado });

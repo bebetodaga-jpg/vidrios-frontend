@@ -5,8 +5,8 @@ export type MetodoPago = 'EFECTIVO' | 'TARJETA' | 'YAPE_PLIN';
 export interface ItemVenta {
   codigo: string;
   cantidad: number;
-  anchoCm?: number;
-  altoCm?: number;
+  anchoMm?: number;
+  altoMm?: number;
 }
 
 export interface ComandoVenta {

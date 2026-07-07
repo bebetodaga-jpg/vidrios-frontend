@@ -5,7 +5,7 @@ import { useSesion } from '@modules/auth/use-sesion';
 import { ErrorApi } from '@shared/api/cliente';
 import { ETIQUETA_UNIDAD, ProductoCatalogo, buscarProductos } from '@shared/api/catalogo';
 import { ColorAluminio, ConfigItem, ItemCotizado, ModeloCotizacion, cotizarItem, crearCotizacion, listarModelos } from '@shared/api/cotizaciones';
-import { aDecimalDeCm, soles } from '@shared/formato';
+import { aMmEntero, soles } from '@shared/formato';
 import { colores, tamanoDisplay } from '@shared/tokens';
 import { ModalPdfCotizacion } from './ModalPdfCotizacion';
 
@@ -49,13 +49,13 @@ const ESTILO_H2: React.CSSProperties = { color: colores.blue800, fontSize: 18, m
 const ESTILO_H3: React.CSSProperties = { color: colores.blue800, fontSize: 15, margin: '0 0 10px' };
 const ESTILO_LABEL: React.CSSProperties = { display: 'block', fontSize: 13, fontWeight: 600, color: colores.gray700, marginBottom: 4 };
 
-function Croquis({ anchoCm, altoCm, hojas }: { anchoCm: number; altoCm: number; hojas: number }): React.ReactNode {
-  if (!anchoCm || !altoCm) {
+function Croquis({ anchoMm, altoMm, hojas }: { anchoMm: number; altoMm: number; hojas: number }): React.ReactNode {
+  if (!anchoMm || !altoMm) {
     return <svg width={220} height={170} />;
   }
-  const esc = Math.min(180 / anchoCm, 130 / altoCm);
-  const w = anchoCm * esc;
-  const h = altoCm * esc;
+  const esc = Math.min(180 / anchoMm, 130 / altoMm);
+  const w = anchoMm * esc;
+  const h = altoMm * esc;
   const x = (220 - w) / 2;
   const y = 10;
   const divisiones = [];
@@ -68,7 +68,7 @@ function Croquis({ anchoCm, altoCm, hojas }: { anchoCm: number; altoCm: number; 
       <rect x={x} y={y} width={w} height={h} fill={colores.cyan100} stroke={colores.blue800} strokeWidth={3} />
       {divisiones}
       <text x={x + w / 2} y={y + h + 18} textAnchor="middle" fontFamily="Consolas" fontSize={13} fill={colores.gray900}>
-        {anchoCm} cm
+        {anchoMm} mm
       </text>
       <text
         x={x - 8}
@@ -79,7 +79,7 @@ function Croquis({ anchoCm, altoCm, hojas }: { anchoCm: number; altoCm: number; 
         fill={colores.gray900}
         transform={`rotate(-90 ${String(x - 8)} ${String(y + h / 2)})`}
       >
-        {altoCm} cm
+        {altoMm} mm
       </text>
     </svg>
   );
@@ -93,7 +93,7 @@ export function PantallaCotizador(): React.ReactNode {
   const [modelos, setModelos] = useState<ModeloCotizacion[]>([]);
   const [coloresAlu, setColoresAlu] = useState<ColorAluminio[]>([]);
   const [vidrios, setVidrios] = useState<ProductoCatalogo[]>([]);
-  const [config, setConfig] = useState<ConfigItem>({ vanoCodigo: 'V-01', modelo: '', vidrioCodigo: '', color: '', anchoCm: 150, altoCm: 120, cantidad: 1 });
+  const [config, setConfig] = useState<ConfigItem>({ vanoCodigo: 'V-01', modelo: '', vidrioCodigo: '', color: '', anchoMm: 1500, altoMm: 1200, cantidad: 1 });
   const [preview, setPreview] = useState<ItemCotizado | null>(null);
   const [errorPreview, setErrorPreview] = useState<string | null>(null);
   const [items, setItems] = useState<ItemEnCotizacion[]>([]);
@@ -116,7 +116,7 @@ export function PantallaCotizador(): React.ReactNode {
 
   // Precio al instante: recalcula cuando cambia la configuración (igual que el prototipo).
   const recalcular = useCallback(async () => {
-    if (!sesion || !config.modelo || !config.vidrioCodigo || !config.color || !config.anchoCm || !config.altoCm) {
+    if (!sesion || !config.modelo || !config.vidrioCodigo || !config.color || !config.anchoMm || !config.altoMm) {
       setPreview(null);
       setErrorPreview(null);
       return;
@@ -188,8 +188,8 @@ export function PantallaCotizador(): React.ReactNode {
         modelo: it.modelo,
         vidrioCodigo: it.vidrioCodigo,
         color: it.color,
-        anchoCm: it.anchoCm,
-        altoCm: it.altoCm,
+        anchoMm: it.anchoMm,
+        altoMm: it.altoMm,
         cantidad: it.cantidad,
       }));
       const r = await crearCotizacion(sesion.token, configs);
@@ -204,7 +204,7 @@ export function PantallaCotizador(): React.ReactNode {
 
   const total = items.reduce((s, i) => s + i.totalCentimos, 0);
   const vidriosDisponibles = vidriosPermitidos(modeloSel);
-  const areaM2 = (config.anchoCm * config.altoCm) / 10000;
+  const areaM2 = (config.anchoMm * config.altoMm) / 10000;
   const recomendacion = modeloSel?.soloTemplado
     ? '★ Recomendación de seguridad: en este modelo se usa vidrio TEMPLADO (norma de vidrio de seguridad).'
     : areaM2 > 2.2
@@ -246,12 +246,12 @@ export function PantallaCotizador(): React.ReactNode {
               </Row>
               <Row gutter={12}>
                 <Col span={8}>
-                  <label style={ESTILO_LABEL}>Ancho (cm)</label>
-                  <InputNumber className="mono" min={1} step={0.1} value={config.anchoCm} onChange={(v) => { setConfig({ ...config, anchoCm: aDecimalDeCm(v) }); }} style={{ width: '100%' }} />
+                  <label style={ESTILO_LABEL}>Ancho (mm)</label>
+                  <InputNumber className="mono" min={1} step={1} value={config.anchoMm} onChange={(v) => { setConfig({ ...config, anchoMm: aMmEntero(v) }); }} style={{ width: '100%' }} />
                 </Col>
                 <Col span={8}>
-                  <label style={ESTILO_LABEL}>Alto (cm)</label>
-                  <InputNumber className="mono" min={1} step={0.1} value={config.altoCm} onChange={(v) => { setConfig({ ...config, altoCm: aDecimalDeCm(v) }); }} style={{ width: '100%' }} />
+                  <label style={ESTILO_LABEL}>Alto (mm)</label>
+                  <InputNumber className="mono" min={1} step={1} value={config.altoMm} onChange={(v) => { setConfig({ ...config, altoMm: aMmEntero(v) }); }} style={{ width: '100%' }} />
                 </Col>
                 <Col span={8}>
                   <label style={ESTILO_LABEL}>Cantidad de vanos iguales</label>
@@ -340,7 +340,7 @@ export function PantallaCotizador(): React.ReactNode {
                     <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: `1px solid ${colores.gray100}` }}>
                       <span>
                         <b>{it.vanoCodigo}</b> · {modelos.find((m) => m.clave === it.modelo)?.nombre ?? it.modelo} ×{it.cantidad}
-                        <div style={{ fontSize: 11, color: colores.gray700 }}>{it.vidrioNombre} · {it.anchoCm}×{it.altoCm} cm</div>
+                        <div style={{ fontSize: 11, color: colores.gray700 }}>{it.vidrioNombre} · {it.anchoMm}×{it.altoMm} mm</div>
                       </span>
                       <span className="mono">
                         {soles(it.totalCentimos)}{' '}
@@ -399,7 +399,7 @@ export function PantallaCotizador(): React.ReactNode {
             <div style={ESTILO_TARJETA}>
               <h3 style={ESTILO_H3}>Croquis del vano</h3>
               <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0 4px' }}>
-                <Croquis anchoCm={config.anchoCm} altoCm={config.altoCm} hojas={hojas} />
+                <Croquis anchoMm={config.anchoMm} altoMm={config.altoMm} hojas={hojas} />
               </div>
 
               <h3 style={{ ...ESTILO_H3, marginTop: 10 }}>Despiece automático</h3>
@@ -418,7 +418,7 @@ export function PantallaCotizador(): React.ReactNode {
                         <tr key={i}>
                           <td>{p.nombre}</td>
                           <td className="num">{p.cantidad}</td>
-                          <td className="num">{(p.largoCm / 100).toFixed(2)} m</td>
+                          <td className="num">{(p.largoMm / 100).toFixed(2)} m</td>
                         </tr>
                       ))}
                       <tr>
@@ -437,7 +437,7 @@ export function PantallaCotizador(): React.ReactNode {
                         <tr key={i}>
                           <td>Paño</td>
                           <td className="num">{p.cantidad}</td>
-                          <td className="num">{Math.round(p.anchoCm)} × {Math.round(p.altoCm)} cm</td>
+                          <td className="num">{Math.round(p.anchoMm)} × {Math.round(p.altoMm)} mm</td>
                         </tr>
                       ))}
                       <tr>

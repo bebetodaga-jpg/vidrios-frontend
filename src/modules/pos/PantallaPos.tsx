@@ -6,6 +6,7 @@ import {
   Card,
   Col,
   Empty,
+  Grid,
   Input,
   InputNumber,
   Modal,
@@ -36,6 +37,8 @@ export function PantallaPos(): React.ReactNode {
   const { message } = App.useApp();
   const esGerente = sesion?.rol === 'GERENTE';
   const puedeAbrirCaja = sesion?.rol === 'CAJERA' || esGerente;
+  // En el celular no hay teclado físico: los atajos F2/F8/F12 se ocultan y los botones van sin sufijo.
+  const esMovil = !Grid.useBreakpoint().md;
   const buscador = useRef<InputRef>(null);
 
   const [productos, setProductos] = useState<ProductoCatalogo[]>([]);
@@ -291,16 +294,18 @@ export function PantallaPos(): React.ReactNode {
           <Input.Search
             ref={buscador}
             size="large"
-            placeholder="🔍 Escanee el código de barras o escriba el producto… (Enter agrega)"
+            placeholder={esMovil ? '🔍 Buscar producto…' : '🔍 Escanee el código de barras o escriba el producto… (Enter agrega)'}
             value={texto}
             onChange={(e) => { setTexto(e.target.value); }}
             onSearch={buscarEnter}
             onPressEnter={buscarEnter}
             autoFocus
           />
-          <Typography.Paragraph type="secondary" style={{ fontSize: 12, margin: '6px 0' }}>
-            Atajos: <Tag>F2</Tag> buscar · <Tag>F8</Tag> en espera · <Tag>F9</Tag> retomar · <Tag>F12</Tag> cobrar
-          </Typography.Paragraph>
+          {!esMovil && (
+            <Typography.Paragraph type="secondary" style={{ fontSize: 12, margin: '6px 0' }}>
+              Atajos: <Tag>F2</Tag> buscar · <Tag>F8</Tag> en espera · <Tag>F9</Tag> retomar · <Tag>F12</Tag> cobrar
+            </Typography.Paragraph>
+          )}
           <Row gutter={[8, 8]}>
             {productos.map((p) => (
               <Col key={p.id} xs={12} sm={8}>
@@ -374,10 +379,10 @@ export function PantallaPos(): React.ReactNode {
               </div>
               <Space style={{ width: '100%' }} styles={{ item: { flex: 1 } }}>
                 <Button block icon={<PauseOutlined />} onClick={ponerEnEspera} disabled={carrito.length === 0}>
-                  En espera (F8)
+                  {esMovil ? 'En espera' : 'En espera (F8)'}
                 </Button>
                 <Button block type="primary" size="large" onClick={abrirCobro} disabled={carrito.length === 0}>
-                  COBRAR (F12)
+                  {esMovil ? 'COBRAR' : 'COBRAR (F12)'}
                 </Button>
               </Space>
             </div>

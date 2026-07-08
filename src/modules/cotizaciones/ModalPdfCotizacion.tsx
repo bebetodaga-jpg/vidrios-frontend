@@ -63,6 +63,7 @@ export function ModalPdfCotizacion({ abierto, numero, items, total, modelos, onC
           </div>
         </div>
 
+        <div className="doc-tabla-scroll">
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12.5 }}>
           <thead>
             <tr style={{ background: colores.blue800, color: colores.white }}>
@@ -93,6 +94,7 @@ export function ModalPdfCotizacion({ abierto, numero, items, total, modelos, onC
             </tr>
           </tbody>
         </table>
+        </div>
 
         <h3 style={{ color: colores.blue800, fontSize: 14, marginTop: 16 }}>Condiciones</h3>
         <ul style={{ fontSize: 12, color: colores.gray700, paddingLeft: 18 }}>

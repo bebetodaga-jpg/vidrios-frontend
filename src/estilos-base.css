@@ -20,6 +20,16 @@ body,
 .ant-table-content {
   overflow-x: auto;
 }
+/* Tablas HTML de documentos (cotización, contrato, reportes): se envuelven en este
+   contenedor para que en el celular se deslicen en vez de salirse del cuadro. */
+.doc-tabla-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.doc-tabla-scroll > table td,
+.doc-tabla-scroll > table th {
+  white-space: nowrap;
+}
 img {
   max-width: 100%;
 }
@@ -157,5 +167,13 @@ img {
     top: 0;
     width: 100%;
     padding: 8mm;
+  }
+  /* En papel no hay scroll: la tabla vuelve a su ancho natural con texto envuelto. */
+  .doc-tabla-scroll {
+    overflow: visible;
+  }
+  .doc-tabla-scroll > table td,
+  .doc-tabla-scroll > table th {
+    white-space: normal;
   }
 }

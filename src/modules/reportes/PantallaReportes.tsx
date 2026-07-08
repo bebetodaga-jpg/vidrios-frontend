@@ -208,7 +208,7 @@ export function PantallaReportes(): React.ReactNode {
         <Col xs={24} lg={10}>
           <div style={{ ...ESTILO_TARJETA, height: '100%' }}>
             <h2 style={ESTILO_H2}>Margen por obra (contratado vs. costos registrados)</h2>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <div className="doc-tabla-scroll"><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
                 <tr><th style={ESTILO_TH}>Obra</th><th style={{ ...ESTILO_TH, textAlign: 'right' }}>Contratado</th><th style={{ ...ESTILO_TH, textAlign: 'right' }}>Costos</th><th style={{ ...ESTILO_TH, textAlign: 'right' }}>Margen</th></tr>
               </thead>
@@ -225,7 +225,7 @@ export function PantallaReportes(): React.ReactNode {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
             <p style={{ fontSize: 11.5, color: colores.gray500, fontStyle: 'italic', marginTop: 8 }}>
               Costos = pagos/destajos al personal por obra. El material por obra se suma cuando el kárdex referencie la obra.
             </p>
@@ -238,7 +238,7 @@ export function PantallaReportes(): React.ReactNode {
         <Col xs={24} lg={12}>
           <div style={{ ...ESTILO_TARJETA, height: '100%' }}>
             <h2 style={ESTILO_H2}>Productos más vendidos</h2>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <div className="doc-tabla-scroll"><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead><tr><th style={ESTILO_TH}>#</th><th style={ESTILO_TH}>Producto</th><th style={{ ...ESTILO_TH, textAlign: 'right' }}>Vendido</th></tr></thead>
               <tbody>
                 {panel.rankingProductos.map((p, i) => (
@@ -249,13 +249,13 @@ export function PantallaReportes(): React.ReactNode {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </Col>
         <Col xs={24} lg={12}>
           <div style={{ ...ESTILO_TARJETA, height: '100%' }}>
             <h2 style={ESTILO_H2}>Ranking de vendedores</h2>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <div className="doc-tabla-scroll"><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead><tr><th style={ESTILO_TH}>#</th><th style={ESTILO_TH}>Vendedor</th><th style={{ ...ESTILO_TH, textAlign: 'right' }}>Tickets</th><th style={{ ...ESTILO_TH, textAlign: 'right' }}>Vendido</th></tr></thead>
               <tbody>
                 {panel.rankingVendedores.map((v, i) => (
@@ -267,7 +267,7 @@ export function PantallaReportes(): React.ReactNode {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </Col>
       </Row>

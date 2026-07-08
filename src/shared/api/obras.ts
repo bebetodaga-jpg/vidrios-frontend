@@ -61,6 +61,7 @@ export interface VanoSync {
   medidas: { id: string; tipo: 'INICIAL' | 'REMETREO'; anchoMm: number; altoMm: number }[];
 }
 
+/** Lista base de tipos (respaldo offline); la completa el backend con los tipos ya usados. */
 export const TIPOS_TRABAJO = [
   'Ventana corrediza (serie)',
   'Mampara (serie)',
@@ -69,8 +70,11 @@ export const TIPOS_TRABAJO = [
   'Pivotante',
   'Spider',
   'Paño fijo',
-  'Otro',
+  'Ventana SERIE 25',
 ];
+
+/** Tipos de trabajo para selección rápida: base + todos los escritos a mano en vanos. */
+export const listarTiposTrabajo = (token: string): Promise<string[]> => pedirApi('GET', '/obras/tipos-trabajo', token);
 
 export const crearClienteObra = (
   token: string,
@@ -91,7 +95,22 @@ export const sincronizarLote = (
   token: string,
   ambienteId: string,
   vanos: VanoSync[],
-): Promise<{ vanos: number; medidas: number }> => pedirApi('POST', '/obras/sincronizar', token, { ambienteId, vanos });
+): Promise<{ vanos: number; medidas: number }> =>
+  pedirApi('POST', '/obras/sincronizar', token, {
+    ambienteId,
+    // Solo los campos del DTO: los vanos del almacén offline traen extras (obraId/ambienteId)
+    // que el backend rechaza por whitelist estricta.
+    vanos: vanos.map((v) => ({
+      id: v.id,
+      codigo: v.codigo,
+      nombre: v.nombre,
+      tipo: v.tipo,
+      cantidad: v.cantidad,
+      tieneDetalle: v.tieneDetalle,
+      ...(v.fotoUrl !== undefined && { fotoUrl: v.fotoUrl }),
+      medidas: v.medidas.map((m) => ({ id: m.id, tipo: m.tipo, anchoMm: m.anchoMm, altoMm: m.altoMm })),
+    })),
+  });
 
 export const registrarMedida = (
   token: string,

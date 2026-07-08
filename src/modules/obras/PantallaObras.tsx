@@ -7,12 +7,14 @@ import {
   ORDEN_ESTADOS_OBRA,
   ObraDetalle,
   ObraResumen,
+  TIPOS_TRABAJO,
   agregarAmbiente,
   avanzarEstadoObra,
   crearClienteObra,
   crearObra,
   detalleObra,
   listarObras,
+  listarTiposTrabajo,
   sincronizarLote,
 } from '@shared/api/obras';
 import { colores } from '@shared/tokens';
@@ -31,6 +33,7 @@ export function PantallaObras(): React.ReactNode {
   const [modalObra, setModalObra] = useState(false);
   const [modalAmbiente, setModalAmbiente] = useState(false);
   const [medir, setMedir] = useState<{ ambienteId: string; codigo: string } | null>(null);
+  const [tiposTrabajo, setTiposTrabajo] = useState<string[]>(TIPOS_TRABAJO);
 
   // Form nueva obra
   const [cliNombre, setCliNombre] = useState('');
@@ -54,6 +57,14 @@ export function PantallaObras(): React.ReactNode {
   useEffect(() => {
     void cargarObras();
   }, [cargarObras]);
+
+  // Tipos de trabajo: base + los escritos a mano en vanos (si no hay señal, queda la lista base).
+  useEffect(() => {
+    if (!sesion) return;
+    listarTiposTrabajo(sesion.token)
+      .then(setTiposTrabajo)
+      .catch(() => { setTiposTrabajo(TIPOS_TRABAJO); });
+  }, [sesion]);
 
   const abrirObra = useCallback(
     async (id: string) => {
@@ -80,7 +91,11 @@ export function PantallaObras(): React.ReactNode {
         quitarPendientes(grupo.map((v) => v.id));
         total += grupo.length;
       }
-      if (total > 0) message.success(`${String(total)} vano(s) enviados al sistema.`);
+      if (total > 0) {
+        message.success(`${String(total)} vano(s) enviados al sistema.`);
+        // Un tipo escrito a mano ya quedó guardado: se recarga para selección rápida.
+        listarTiposTrabajo(sesion.token).then(setTiposTrabajo).catch(() => undefined);
+      }
       await abrirObra(detalle.id);
     } catch (e) {
       message.error(e instanceof ErrorApi ? e.message : 'No se pudo sincronizar.');
@@ -249,7 +264,7 @@ export function PantallaObras(): React.ReactNode {
       </Button>
 
       {medir && (
-        <ModalMedirVano obraId={detalle.id} ambienteId={medir.ambienteId} codigoSugerido={medir.codigo} abierto onCerrar={() => { setMedir(null); }} onGuardado={onVanoGuardado} />
+        <ModalMedirVano obraId={detalle.id} ambienteId={medir.ambienteId} codigoSugerido={medir.codigo} abierto tipos={tiposTrabajo} onCerrar={() => { setMedir(null); }} onGuardado={onVanoGuardado} />
       )}
 
       <Modal title="Nuevo ambiente" open={modalAmbiente} onCancel={() => { setModalAmbiente(false); }} onOk={() => void guardarAmbiente()} okText="Agregar" cancelText="Cancelar">

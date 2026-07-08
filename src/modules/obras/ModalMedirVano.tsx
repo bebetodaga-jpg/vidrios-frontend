@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { App, Button, Col, InputNumber, Input, Modal, Row, Select, Switch, Upload } from 'antd';
+import { App, AutoComplete, Button, Col, InputNumber, Input, Modal, Row, Switch, Upload } from 'antd';
 import { CameraOutlined } from '@ant-design/icons';
 import { TIPOS_TRABAJO } from '@shared/api/obras';
 import { guardarPendiente } from './almacen-local';
@@ -9,17 +9,19 @@ interface Props {
   ambienteId: string;
   codigoSugerido: string;
   abierto: boolean;
+  /** Tipos para selección rápida (base + los ya usados); también se puede escribir uno nuevo. */
+  tipos?: string[];
   onCerrar: () => void;
   onGuardado: () => void;
 }
 
 /** Captura de un vano en campo: se guarda en el teléfono al instante (offline-first). */
-export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, onCerrar, onGuardado }: Props): React.ReactNode {
+export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, tipos, onCerrar, onGuardado }: Props): React.ReactNode {
   const { message } = App.useApp();
   const [nombre, setNombre] = useState('');
   const [tipo, setTipo] = useState(TIPOS_TRABAJO[0]);
-  const [ancho, setAncho] = useState(100);
-  const [alto, setAlto] = useState(100);
+  const [ancho, setAncho] = useState(1000);
+  const [alto, setAlto] = useState(1000);
   const [cantidad, setCantidad] = useState(1);
   const [tieneDetalle, setTieneDetalle] = useState(false);
   const [hayFoto, setHayFoto] = useState(false);
@@ -28,17 +30,23 @@ export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, on
     if (abierto) {
       setNombre('');
       setTipo(TIPOS_TRABAJO[0]);
-      setAncho(100);
-      setAlto(100);
+      setAncho(1000);
+      setAlto(1000);
       setCantidad(1);
       setTieneDetalle(false);
       setHayFoto(false);
     }
   }, [abierto]);
 
+  const opciones = tipos && tipos.length > 0 ? tipos : TIPOS_TRABAJO;
+
   function guardar(): void {
     if (nombre.trim().length < 2) {
       message.warning('Indique el nombre del vano.');
+      return;
+    }
+    if (tipo.trim().length < 2) {
+      message.warning('Indique el tipo de trabajo (elija uno o escríbalo).');
       return;
     }
     if (!ancho || !alto) {
@@ -55,7 +63,7 @@ export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, on
       id: crypto.randomUUID(),
       codigo: codigoSugerido,
       nombre: nombre.trim(),
-      tipo,
+      tipo: tipo.trim(),
       cantidad,
       tieneDetalle,
       fotoUrl: hayFoto ? 'local://foto-capturada' : undefined,
@@ -69,8 +77,16 @@ export function ModalMedirVano({ obraId, ambienteId, codigoSugerido, abierto, on
     <Modal title={`Medir vano (${codigoSugerido})`} open={abierto} onCancel={onCerrar} onOk={guardar} okText="Guardar medida" cancelText="Cancelar">
       <div style={{ marginBottom: 8 }}>Nombre del vano</div>
       <Input value={nombre} onChange={(e) => { setNombre(e.target.value); }} placeholder="Ej.: Ventana frontal" style={{ marginBottom: 12 }} size="large" />
-      <div style={{ marginBottom: 8 }}>Tipo de trabajo</div>
-      <Select value={tipo} onChange={(v) => { setTipo(v); }} options={TIPOS_TRABAJO.map((t) => ({ label: t, value: t }))} style={{ width: '100%', marginBottom: 12 }} size="large" />
+      <div style={{ marginBottom: 8 }}>Tipo de trabajo (elija o escriba uno nuevo)</div>
+      <AutoComplete
+        value={tipo}
+        onChange={(v) => { setTipo(v); }}
+        options={opciones.map((t) => ({ value: t }))}
+        filterOption={(texto, opcion) => (opcion?.value ?? '').toLowerCase().includes(texto.toLowerCase())}
+        placeholder="Ej.: Ventana SERIE 25"
+        style={{ width: '100%', marginBottom: 12 }}
+        size="large"
+      />
       <Row gutter={10} style={{ marginBottom: 12 }}>
         <Col span={8}>
           Ancho (mm)

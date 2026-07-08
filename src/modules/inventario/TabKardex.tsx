@@ -121,7 +121,7 @@ export function TabKardex(): React.ReactNode {
         <Select
           showSearch
           placeholder="Elija un producto…"
-          style={{ width: 380 }}
+          style={{ width: 380, maxWidth: '100%' }}
           value={codigo}
           onChange={elegir}
           optionFilterProp="label"

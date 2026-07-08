@@ -8,13 +8,15 @@ import { itemPorRuta, navegacionPara } from './navegacion';
 
 const { Header, Sider, Content } = Layout;
 
-function Marca({ compacta = false }: { compacta?: boolean }): React.ReactNode {
+function Marca({ compacta = false, soloLogo = false }: { compacta?: boolean; soloLogo?: boolean }): React.ReactNode {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: compacta ? 0 : '0 8px' }}>
-      <img src="/logo-galaxi.svg" alt="" width={32} height={32} />
-      <span style={{ color: colores.white, fontWeight: 700, fontSize: 16, letterSpacing: 0.5 }}>
-        VIDRIOS <span style={{ color: colores.cyan500 }}>GALAXI</span>
-      </span>
+      <img src="/logo-galaxi.svg" alt="Vidrios Galaxi" width={32} height={32} />
+      {!soloLogo && (
+        <span style={{ color: colores.white, fontWeight: 700, fontSize: 16, letterSpacing: 0.5, whiteSpace: 'nowrap' }}>
+          VIDRIOS <span style={{ color: colores.cyan500 }}>GALAXI</span>
+        </span>
+      )}
     </div>
   );
 }
@@ -91,13 +93,18 @@ export function LayoutPrincipal(): React.ReactNode {
               style={{ height: 48, width: 48 }}
             />
           )}
-          {esMovil && <Marca compacta />}
+          {esMovil && <Marca compacta soloLogo />}
 
-          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
-            {enObra && <Tag color="cyan">Modo obra</Tag>}
-            <span style={{ color: colores.white, fontSize: 13 }}>
-              {sesion.nombre} <Tag style={{ marginInlineStart: 4 }}>{sesion.rol}</Tag>
-            </span>
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+            {enObra && <Tag color="cyan" style={{ marginInlineEnd: 0 }}>Modo obra</Tag>}
+            {/* En móvil el nombre no cabe: solo el rol; el nombre completo va en Inicio. */}
+            {esMovil ? (
+              <Tag style={{ marginInlineEnd: 0 }}>{sesion.rol}</Tag>
+            ) : (
+              <span style={{ color: colores.white, fontSize: 13, whiteSpace: 'nowrap' }}>
+                {sesion.nombre} <Tag style={{ marginInlineStart: 4 }}>{sesion.rol}</Tag>
+              </span>
+            )}
             <Button
               type="text"
               icon={<LogoutOutlined style={{ color: colores.white }} />}

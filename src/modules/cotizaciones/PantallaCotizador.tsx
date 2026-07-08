@@ -222,7 +222,7 @@ export function PantallaCotizador(): React.ReactNode {
       <Row gutter={16}>
         {/* ===== Flujo por pasos ===== */}
         <Col xs={24} lg={15}>
-          <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
+          <div className="cotz-pasos" style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
             {PASOS.map((p, i) => (
               <button
                 key={p}

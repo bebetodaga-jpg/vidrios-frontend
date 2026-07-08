@@ -137,7 +137,7 @@ export function PantallaFacturacion(): React.ReactNode {
 
   return (
     <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-      <Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 12 }}>
+      <Space wrap style={{ width: '100%', justifyContent: 'space-between', marginBottom: 12 }}>
         <Typography.Title level={3} style={{ color: colores.blue800, margin: 0 }}>
           Facturación
         </Typography.Title>

@@ -177,7 +177,7 @@ export function TabCorteManual(): React.ReactNode {
               showSearch
               allowClear
               placeholder="Seleccione el vidrio…"
-              style={{ width: 280 }}
+              style={{ width: 280, maxWidth: '100%' }}
               value={vidrioCodigo}
               onChange={(v) => { setVidrioCodigo(v); }}
               optionFilterProp="label"

@@ -83,7 +83,7 @@ export function TabCortesVenta(): React.ReactNode {
 
   return (
     <div>
-      <Space style={{ marginBottom: 12 }}>
+      <Space wrap style={{ marginBottom: 12 }}>
         <Badge count={cortes.length} showZero color={colores.blue800}>
           <span style={{ paddingRight: 8, fontWeight: 600 }}>Pendientes de cortar</span>
         </Badge>

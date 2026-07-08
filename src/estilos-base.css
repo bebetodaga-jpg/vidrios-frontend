@@ -15,6 +15,33 @@ body,
   font-family: Consolas, 'Roboto Mono', monospace;
 }
 
+/* ===== Móvil: nada debe desbordar la pantalla ===== */
+/* Las tablas AntD hacen scroll dentro de su tarjeta, no empujan la página. */
+.ant-table-content {
+  overflow-x: auto;
+}
+img {
+  max-width: 100%;
+}
+/* Los tabs del wizard y toolbars nunca deben provocar scroll de página. */
+@media (max-width: 575px) {
+  .cotz-tabla {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Pasos del wizard: se deslizan de lado en vez de aplastarse unos sobre otros. */
+  .cotz-pasos {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cotz-pasos .cotz-paso-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding-inline: 10px;
+  }
+}
+
 /* ===== Cotizador wizard (réplica del prototipo ux-ui/sprint-0/prototipo-cotizador.html) ===== */
 .cotz-paso-tab {
   flex: 1;

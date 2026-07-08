@@ -207,13 +207,13 @@ function TabPersonal(): React.ReactNode {
                 options={(Object.keys(ETIQUETA_TIPO_PAGO) as TipoPagoPersonal[]).map((t) => ({ label: ETIQUETA_TIPO_PAGO[t], value: t }))}
               />
               <InputNumber min={0.1} step={10} placeholder="Monto S/" value={pago.monto} onChange={(v) => { setPago({ ...pago, monto: v ?? undefined }); }} style={{ width: 120 }} className="mono" />
-              <Input placeholder="Concepto (ej. Destajo corte OB-0048)" value={pago.concepto} onChange={(e) => { setPago({ ...pago, concepto: e.target.value }); }} style={{ width: 280 }} />
+              <Input placeholder="Concepto (ej. Destajo corte OB-0048)" value={pago.concepto} onChange={(e) => { setPago({ ...pago, concepto: e.target.value }); }} style={{ width: 280, maxWidth: '100%' }} />
               <Select
                 placeholder="Obra (opcional)"
                 allowClear
                 value={pago.obraId}
                 onChange={(v: string | undefined) => { setPago({ ...pago, obraId: v }); }}
-                style={{ width: 200 }}
+                style={{ width: 200, maxWidth: '100%' }}
                 options={obras.map((o) => ({ label: `${o.codigo} · ${o.cliente}`, value: o.id }))}
               />
               <Button type="primary" loading={pagando} disabled={!pago.monto || pago.concepto.trim().length < 3} onClick={() => void registrarPago()}>
@@ -338,7 +338,7 @@ function TabCuadrillas(): React.ReactNode {
                   placeholder="Agregar persona…"
                   value={a.personalId}
                   onChange={(v: string) => { setAsignacion({ ...asignacion, [c.id]: { ...a, personalId: v } }); }}
-                  style={{ width: 230 }}
+                  style={{ width: 230, maxWidth: '100%' }}
                   options={sinAsignar.map((p) => ({ label: `${p.nombre} (${ETIQUETA_ESPECIALIDAD[p.especialidad]})`, value: p.id }))}
                 />
                 <Select<Especialidad>

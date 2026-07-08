@@ -114,7 +114,7 @@ export function TabCargaExcel(): React.ReactNode {
 
   return (
     <div>
-      <Space style={{ marginBottom: 12 }}>
+      <Space wrap style={{ marginBottom: 12 }}>
         <Button icon={<DownloadOutlined />} onClick={() => void descargarPlantilla()}>
           Descargar plantilla
         </Button>
@@ -143,7 +143,7 @@ export function TabCargaExcel(): React.ReactNode {
 
       {mapeadas.length > 0 && !reporte && (
         <>
-          <Space size="large" style={{ marginBottom: 12 }}>
+          <Space wrap size="large" style={{ marginBottom: 12 }}>
             <Statistic title="Filas leídas" value={mapeadas.length} />
             <Statistic title="Correctas" value={validas} valueStyle={{ color: '#1E7A4F' }} />
             <Statistic title="Con error" value={conError} valueStyle={{ color: conError ? '#C53030' : undefined }} />

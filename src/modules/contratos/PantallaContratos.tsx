@@ -133,7 +133,7 @@ export function PantallaContratos(): React.ReactNode {
         <Space wrap>
           <Select
             placeholder="Cotización aceptada…"
-            style={{ width: 320 }}
+            style={{ width: 320, maxWidth: '100%' }}
             value={cotizacionId}
             onChange={(v) => { setCotizacionId(v); }}
             options={cotizaciones.map((c) => ({ label: `${c.numero} · ${c.cliente ?? 'sin cliente'} · ${soles(c.totalCentimos)}`, value: c.id }))}

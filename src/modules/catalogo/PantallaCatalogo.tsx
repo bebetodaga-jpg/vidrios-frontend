@@ -188,7 +188,7 @@ export function PantallaCatalogo(): React.ReactNode {
         <Input.Search
           placeholder="Buscar por nombre o código…"
           allowClear
-          style={{ width: 300 }}
+          style={{ width: 300, maxWidth: '100%' }}
           value={texto}
           onChange={(e) => { setTexto(e.target.value); }}
           onSearch={(v) => void cargar(v)}

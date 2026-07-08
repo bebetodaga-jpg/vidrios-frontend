@@ -10,7 +10,8 @@ export function DiagramaLamina({ lamina, ancho = 400 }: { lamina: PlanLamina; an
   const escala = (ancho - 2 * margen) / lamina.anchoMm;
   const alto = lamina.altoMm * escala;
   return (
-    <svg width={ancho} height={alto + 22} style={{ display: 'block' }}>
+    // viewBox + maxWidth: en el celular el diagrama se encoge en vez de desbordar la pantalla.
+    <svg viewBox={`0 0 ${String(ancho)} ${String(alto + 22)}`} style={{ display: 'block', width: '100%', maxWidth: ancho, height: 'auto' }}>
       <rect
         x={margen}
         y={margen}
